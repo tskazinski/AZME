@@ -1,0 +1,338 @@
+<!DOCTYPE html><!-- G5Framework -->
+
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+
+<head>
+<meta charset="UTF-8"> 
+
+<title>Alpha Zemerge (Micro-Economy)</title>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta http-equiv="imagetoolbar" content="no" />
+
+<link rel="stylesheet" media="screen" href="css/base.css?v=2" /> <!--Load CSS-->
+<link rel="stylesheet" media="handheld" href="css/handheld.css?v=2" /> <!-- Mobile -->
+
+<link media="all" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css" rel="stylesheet">
+
+<script src="js/libs/modernizr-1.6.min.js"></script> <!-- Modernizr -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script><!--Load jQuery-->
+<script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.5.2.min.js"%3E%3C/script%3E'))</script>
+<script src="js/script.js"></script>
+<script src="js/jquery.tipsy.js"></script>
+<script src="js/jquery.reveal.js"></script>
+<script src="js/jquery.orbit.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+
+<script src="js/modals.js"></script>
+
+<script type="text/javascript" src="js/simulation.js"></script>
+<script type="text/javascript" src="js/engine.js"></script>
+
+</head>
+<body>
+
+    <div id="wrapper">
+        
+        <section class="content" style="padding-bottom:0px">
+
+			<!-- Rerun Sim -->
+            <section class="cols vis-break brdr cntrtxt">
+  				<a class="button red" href="setup">Restart Simulation - Setup Screen</a>
+            </section> 
+
+			<!-- Data -->
+            <section class="cols vis-break brdr cntrtxt">
+            	<script>
+					$(document).ready(function () {
+						$('#simdate_day').html(localStorage["az.simdateDay"]);
+						$('#simdate_month').html(localStorage["az.simdateMonth"]);
+						$('#simdate_year').html(localStorage["az.simdateYear"]);
+					});
+            	</script>
+				<div class="simdate">DAY: <span id="simdate_day"></span> MONTH: <span id="simdate_month"></span> YEAR: <span id="simdate_year"></span></div>
+					
+  				<a class="button green" href="javascript:;" onclick="nextDay();">Next Day</a>
+  				<a class="button green" href="javascript:;" onclick="nextWeek();">Next Week</a>
+  				<a class="button green" href="javascript:;" onclick="nextMonth();">Next Month</a>					
+					
+            </section> 
+
+			<!-- Stats -->
+            <section class="cols vis-break brdr cntrtxt">
+            	<script>
+					$(document).ready(function () {
+						
+						var populationSize = parseInt(localStorage["az.householdCount"]);
+						var sum_household_assets = 0;
+						var sum_household_cash = 0;
+						var sum_household_income = 0;
+						for (var i=1;i<=populationSize;i++)
+						{
+							sum_household_assets += parseInt(localStorage["az.household." + i + ".netassets"]);
+							sum_household_cash += parseInt(localStorage["az.household." + i + ".cash"]);
+							sum_household_income += parseInt(localStorage["az.household." + i + ".income"]);
+						}
+						
+						$('#simstats_totalHouseholdAssets').html("$"+addCommas(sum_household_assets));
+						$('#simstats_totalHouseholdCash').html("$"+addCommas(sum_household_cash));
+						$('#simstats_totalHouseholdIncome').html("$"+addCommas(sum_household_income));						
+						
+						var businessSize = parseInt(localStorage["az.businessCount"]);
+						var sum_business_assets = 0;
+						var sum_business_cash = 0;
+						var sum_business_income = 0;
+						for (var i=1;i<=businessSize;i++)
+						{
+							if (checkBusinessActiveStatus(i))
+							{
+								sum_business_assets += parseInt(localStorage["az.business." + i + ".netassets"]);
+								sum_business_cash += parseInt(localStorage["az.business." + i + ".cash"]);
+								sum_business_income += parseInt(localStorage["az.business." + i + ".income"]);
+							}
+						}
+
+						$('#simstats_totalBusinessAssets').html("$"+addCommas(sum_business_assets));
+						$('#simstats_totalBusinessCash').html("$"+addCommas(sum_business_cash));
+						$('#simstats_totalBusinessIncome').html("$"+addCommas(sum_business_income));
+						
+						var totalBankAssets = localStorage["az.bank.netassets"];
+						var totalBankDeposits = 0;
+						var totalBankLoans = localStorage["az.bank.curloansBank"];
+						var availBankLoans = 0;
+						
+						for (var i=1;i<=populationSize;i++)
+						{
+							totalBankDeposits += parseInt(localStorage["az.bank.depositsBank.household." + i]);
+						}
+						
+						availBankLoans = (totalBankDeposits*parseInt(localStorage["az.bankreservereq"]))-totalBankLoans;
+						
+						$('#simstats_totalBankAssets').html("$"+addCommas(totalBankAssets));
+						$('#simstats_totalBankDeposits').html("$"+addCommas(totalBankDeposits));
+						$('#simstats_totalBankLoans').html("$"+addCommas(totalBankLoans));
+						$('#simstats_availBankLoans').html("$"+addCommas(availBankLoans));
+						
+						var totalGovAssets = localStorage["az.gov.netassets"];
+						var totalGovCash = localStorage["az.gov.cash"];
+						var totalGovTaxCollected = localStorage["az.gov.taxcollected"];
+						
+						$('#simstats_totalGovAssets').html("$"+addCommas(totalGovAssets));
+						$('#simstats_totalGovCash').html("$"+addCommas(totalGovCash));
+						$('#simstats_totalGovTaxCollected').html("$"+addCommas(totalGovTaxCollected));
+						
+					});
+            	</script>
+				<div class="simstats">
+					<span class="tooltip" title="The current total assets(cash+deposits-loans) of all households combined.">Total Household Assets</span>: <span class="statvalue" id="simstats_totalHouseholdAssets"></span>
+					<span class="tooltip" title="The total cash currently held by of all households combined.">Total Household Cash</span>: <span class="statvalue" id="simstats_totalHouseholdCash"></span>
+					<span class="tooltip" title="The total income of all households combined so far in the year.">Total Household Income</span>: <span class="statvalue" id="simstats_totalHouseholdIncome"></span>
+				</div>
+				<div class="simstats">
+					<span class="tooltip" title="The current total assets(cash+deposits+inventory-loans) of all businesses combined.">Total Business Assets</span>: <span class="statvalue" id="simstats_totalBusinessAssets"></span> 
+					<span class="tooltip" title="The total cash currently held by of all businesses combined.">Total Business Cash</span>: <span class="statvalue" id="simstats_totalBusinessCash"></span> 
+					<span class="tooltip" title="The total income of all businesses combined so far in the year.">Total Business Income</span>: <span class="statvalue" id="simstats_totalBusinessIncome"></span></div>
+				<div class="simstats">
+					<span class="tooltip" title="The current total assets(interest earned - interest payed out) of the bank.">Total Bank Assets</span>: <span class="statvalue" id="simstats_totalBankAssets"></span> 
+					<span class="tooltip" title="The current total deposits in the bank.">Total Bank Deposits</span>: <span class="statvalue" id="simstats_totalBankDeposits"></span><br/> 
+					<span class="tooltip" title="The current total loans in the bank.">Total Bank Loans</span>: <span class="statvalue" id="simstats_totalBankLoans"></span> 
+					<span class="tooltip" title="The current total available loans based on the fractional reserve requirement of the bank.">Available Bank Loans</span>: <span class="statvalue" id="simstats_availBankLoans"></span>
+				</div>
+				<div class="simstats">
+					<span class="tooltip" title="The current total assets(cash+deposits-loans) of the government.">Total Government Assets</span>: <span class="statvalue" id="simstats_totalGovAssets"></span> 
+					<span class="tooltip" title="The total cash currently held by the government.">Total Government Cash</span>: <span class="statvalue" id="simstats_totalGovCash"></span> 
+					<span class="tooltip" title="The current amount of tax(sales+income) collected by the government during this year.">Tax Collected</span>: <span class="statvalue" id="simstats_totalGovTaxCollected"></span>
+				</div>
+            </section> 
+
+			<!-- Homes -->
+            <section class="cols vis-break brdr cntrtxt" id="householdSection">
+	
+				<script>					
+					var populationSize = parseInt(localStorage["az.householdCount"]);
+					
+					for (var i=1;i<=populationSize;i++)
+					{
+						generateHome(i,localStorage["az.household." + i + ".netassets"],localStorage["az.household." + i + ".cash"],localStorage["az.household." + i + ".income"],localStorage["az.household." + i + ".numpeople"]);
+					}
+					
+					$(document).ready(function () {
+
+						var lastweek_change;
+						var lastmonth_change;
+						var lastyear_change;
+
+						var sum_household_assets = 0;
+						
+						for (var i=1;i<=populationSize;i++)
+						{
+							sum_household_assets += parseInt(localStorage["az.household." + i + ".netassets"]);
+						}
+
+						var avg_household_assets = sum_household_assets/populationSize;
+
+						for (var i=1;i<=populationSize;i++)
+						{
+							lastweek_change = (localStorage["az.household." + i + ".netassets"]/localStorage["az.household." + i + ".netassetsHistory.week"])-1;
+							lastmonth_change = (localStorage["az.household." + i + ".netassets"]/localStorage["az.household." + i + ".netassetsHistory.month"])-1;
+							lastyear_change = (localStorage["az.household." + i + ".netassets"]/localStorage["az.household." + i + ".netassetsHistory.year"])-1;
+							//alert(yesterday_change);
+							//drawHome(i,wealthHomeArray[i]/100000,Math.random()-Math.random(),Math.random()-Math.random(),Math.random()-Math.random());
+							drawHome(i,localStorage["az.household." + i + ".netassets"]/avg_household_assets,lastweek_change,lastmonth_change,lastyear_change);
+						}
+					});
+				</script>
+ 
+            </section> 
+            
+			<!-- Businesses -->
+         	<section class="cols vis-break brdr cntrtxt">
+	
+				<script>
+				
+					var businessSize = parseInt(localStorage["az.businessCount"]);
+					
+					for (var i=1;i<=businessSize;i++)
+					{
+						if (localStorage["az.business." + i + ".type"] == "manu") // manufacturing
+						{
+							generateBusiness(i,localStorage["az.business." + i + ".netassets"],localStorage["az.business." + i + ".cash"],localStorage["az.business." + i + ".income"],localStorage["az.business." + i + ".numemp"],localStorage["az.business." + i + ".inventory"]);
+						}
+						else {
+							generateBusiness(i,localStorage["az.business." + i + ".netassets"],localStorage["az.business." + i + ".cash"],localStorage["az.business." + i + ".income"],localStorage["az.business." + i + ".numemp"],localStorage["az.business." + i + ".capacity"]);							
+						}
+					}
+					
+					$(document).ready(function () {
+
+						var lastweek_change;
+						var lastmonth_change;
+						var lastyear_change;
+						
+						var sum_business_assets = 0;
+						
+						for (var i=1;i<=businessSize;i++)
+						{
+							if (checkBusinessActiveStatus(i))
+							{
+								sum_business_assets += parseInt(localStorage["az.business." + i + ".netassets"]);
+							}
+						}						
+						
+						var avg_business_assets = sum_business_assets/businessSize;
+						
+						for (var i=1;i<=businessSize;i++)
+						{
+							if (checkBusinessActiveStatus(i))
+							{
+								lastweek_change = (localStorage["az.business." + i + ".netassets"]/localStorage["az.business." + i + ".netassetsHistory.week"])-1;
+								lastmonth_change = (localStorage["az.business." + i + ".netassets"]/localStorage["az.business." + i + ".netassetsHistory.month"])-1;
+								lastyear_change = (localStorage["az.business." + i + ".netassets"]/localStorage["az.business." + i + ".netassetsHistory.year"])-1;
+								drawBusiness(i,localStorage["az.business." + i + ".netassets"]/avg_business_assets,lastweek_change,lastmonth_change,lastyear_change);
+							}
+						}
+					});
+				</script>
+            </section>
+            
+			<!-- Bank -->
+         	<section class="cols vis-break brdr cntrtxt">
+	
+				<script>
+					
+					var assetsBank = localStorage["az.bank.netassets"];
+					var depositsBank = 0;
+					
+					var populationSize = parseInt(localStorage["az.householdCount"]);
+					
+					for (var i=1;i<=populationSize;i++)
+					{
+						depositsBank += parseInt(localStorage["az.bank.depositsBank.household." + i]);
+					}
+					
+					var curloansBank = localStorage["az.bank.curloansBank"];
+					var avaloansBank = (depositsBank*9)-localStorage["az.bank.curloansBank"];
+					generateBank(assetsBank,depositsBank,curloansBank,avaloansBank);
+
+					$(document).ready(function () {
+						
+						var lastweek_change;
+						var lastmonth_change;
+						var lastyear_change;
+												
+						//drawBank(Math.random()-Math.random(),Math.random()-Math.random(),Math.random()-Math.random());
+						
+						lastweek_change = (localStorage["az.bank.netassets"]/localStorage["az.bank.netassetsHistory.week"])-1;
+						lastmonth_change = (localStorage["az.bank.netassets"]/localStorage["az.bank.netassetsHistory.month"])-1;
+						lastyear_change = (localStorage["az.bank.netassets"]/localStorage["az.bank.netassetsHistory.year"])-1;
+						drawBank(lastweek_change,lastmonth_change,lastyear_change);
+					});
+				</script>
+ 
+            </section>
+            
+			<!-- Government -->
+         	<section class="cols vis-break brdr cntrtxt">
+
+				<script>
+					
+					var cash = localStorage["az.gov.cash"];
+					var netassets = localStorage["az.gov.netassets"];
+					var numemp = localStorage["az.gov.numemp"];;
+					var taxcollected = localStorage["az.gov.taxcollected"];;
+					generateGov(cash,netassets,numemp,taxcollected);
+
+					$(document).ready(function () {
+						
+						var lastweek_change;
+						var lastmonth_change;
+						var lastyear_change;
+						
+						//drawGov(Math.random()-Math.random(),Math.random()-Math.random(),Math.random()-Math.random());
+						
+						lastweek_change = (localStorage["az.gov.netassets"]/localStorage["az.gov.netassetsHistory.week"])-1;
+						lastmonth_change = (localStorage["az.gov.netassets"]/localStorage["az.gov.netassetsHistory.month"])-1;
+						lastyear_change = (localStorage["az.gov.netassets"]/localStorage["az.gov.netassetsHistory.year"])-1;
+						drawGov(lastweek_change,lastmonth_change,lastyear_change);
+					});
+				</script>
+ 
+            </section>
+
+         	<section class="cols vis-break brdr cntrtxt">
+  				
+  				<a class="button green" href="javascript:;" onclick="nextDay();">Next Day</a>
+  				<a class="button green" href="javascript:;" onclick="nextWeek();">Next Week</a>
+  				<a class="button green" href="javascript:;" onclick="nextMonth();">Next Month</a>
+            
+            </section>                       
+            
+            <!--end .cols-->
+            
+        </section><!--end section.content-->
+
+    </div><!--end #wrapper-->
+
+<!--[if lt IE 7 ]>
+<script src="js/libs/dd_belatedpng.js"></script>
+<script> DD_belatedPNG.fix('img, .png_bg');</script>
+<![endif]-->
+
+<!--[if IE 6]>
+    <script type="text/javascript"> 
+        /*Load jQuery if not already loaded*/ if(typeof jQuery == 'undefined'){ document.write("<script type=\"text/javascript\"   src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js\"></"+"script>"); var __noconflict = true; } 
+            var IE6UPDATE_OPTIONS = {
+                icons_path: "js/ie6update/images/"
+            }
+     </script>
+     <script type="text/javascript" src="js/ie6update/ie6update.js"></script>
+<![endif]-->
+
+</body>
+</html>

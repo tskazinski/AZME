@@ -1,0 +1,158 @@
+div#logoimg {
+	background-image: url('/images/azme2.png');
+	width:192px;
+	height:49px;
+	float:left;
+	cursor:pointer;
+}
+
+/* home */
+
+.az_home {
+	border:1px solid #cce;
+	width:105px;
+	height:175px;
+	padding-top:5px;
+	background-color:#B3CC99;
+	float:left;
+	margin-right:7px;
+	margin-top:7px;
+	border-radius: 5px;
+	box-shadow: 3px 3px 2px #555;
+}
+
+.az_home canvas {
+	border:1px solid #F2FFE5;
+	padding-top:5px;
+}
+
+section.content .az_home p {
+	font-size:10px;
+	padding:0px;
+	line-height:12px;
+}
+
+/* business */
+
+.az_business {
+	border:1px solid #cce;
+	width:105px;
+	height:188px;
+	padding-top:5px;
+	background-color:#99B3CC;
+	float:left;
+	margin-right:7px;
+	margin-top:7px;
+	border-radius: 5px;
+	box-shadow: 3px 3px 2px #555;
+}
+
+.az_business canvas {
+	border:1px solid #F2FFE5;
+	padding-top:5px;
+}
+
+section.content .az_business p {
+	font-size:10px;
+	padding:0px;
+	line-height:12px;
+}
+
+/* bank */
+
+.az_bank {
+	border:1px solid #cce;
+	width:100%;
+	height:155px;
+	padding-top:5px;
+	background-color:#FFE6CC;
+	float:left;
+	margin-right:7px;
+	margin-top:7px;
+	border-radius: 5px;
+	box-shadow: 3px 3px 2px #555;
+	text-align: left;
+}
+
+.az_bank canvas {
+	border:1px solid #F2FFE5;
+	padding-top:5px;
+	float:left;
+	margin-left:7px;
+	margin-right:7px;
+}
+
+section.content .az_bank p {
+	font-size:10px;
+	padding:0px;
+	line-height:12px;
+}
+
+/* gov */
+
+.az_gov {
+	border:1px solid #cce;
+	width:100%;
+	height:155px;
+	padding-top:5px;
+	background-color:#E6E6E6;
+	float:left;
+	margin-right:7px;
+	margin-top:7px;
+	border-radius: 5px;
+	box-shadow: 3px 3px 2px #555;
+	text-align: left;	
+}
+
+.az_gov canvas {
+	border:1px solid #F2FFE5;
+	padding-top:5px;
+	float:left;
+	margin-left:7px;
+	margin-right:7px;
+}
+
+section.content .az_gov p {
+	font-size:10px;
+	padding:0px;
+	line-height:12px;
+}
+
+.simdate {
+	font-weight: bold;
+	background-color: #ccc;
+	margin-bottom: 10px;
+}
+
+	.simdate span {
+		color:#fff;
+		background-color: #666;
+		border-radius: 5px;
+		padding-left: 10px;
+		padding-right: 10px;
+		margin-right: 5px;		
+	}
+
+.simstats {
+	font-weight: bold;
+	background-color: #ccc;
+	margin-bottom: 10px;
+}
+
+	.simstats .statvalue {
+		color:#fff;
+		background-color: #666;
+		border-radius: 5px;
+		padding-left: 10px;
+		padding-right: 10px;
+		margin-right: 5px;
+	}
+	
+.inputparam {
+	border:0; 
+	color:#f6931f; 
+	font-weight:bold;
+	background-color: #FFF6CC;
+	padding:2px;
+	width:90px;
+}
