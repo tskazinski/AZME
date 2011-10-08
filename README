@@ -1,5 +1,19 @@
-First you need to upload the files on a server in order to run, since HTML5 localstorage does not work when your running local pages using your browser.
+Instructions:
+
+First you need to upload the files on a hosting server in order to run it, since HTML5 localstorage does not work when your running local pages using your browser.
 
 After you have uploaded the files simply enter the url pointing to the setup.html file.
 
 If you have any questions please email me at: zemerge.com@gmail.com
+
+****************************************************
+
+The Alpha Zemerge Micro Economy (AZME) simulation is a web based application that aims to recreate a simplified closed-system micro-economy for the user to witness how wealth flow carries out given the specified economic rules and parameters chosen by the user.
+
+Copyright (C) 2011  Tom Skazinski
+
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
