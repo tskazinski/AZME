@@ -4,6 +4,26 @@ First you need to upload the files on a hosting server in order to run it, since
 
 After you have uploaded the files simply enter the url pointing to the setup.html file.
 
+It should look like this: http://alphazemerge.com/dev/setup.html
+
+Note: I took out the image files since they were bought on istockphoto and cannot be redistributed.
+
+****************************************************
+
+Files that comprise the simulation:
+
+setup.html - Setup input variable for simulation, initializes all the local storage data.
+
+run.html - Frontend html displaying simulation results.
+
+simulation.js - Javascript accompanying run.html to renter the frontend
+
+engine.js - Logic of the simulation, local storage data is altered and computed here.
+
+az.css - Style sheet for the simulation.
+
+****************************************************
+
 If you have any questions please email me at: zemerge.com@gmail.com
 
 ****************************************************
