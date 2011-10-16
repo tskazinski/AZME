@@ -355,13 +355,21 @@ function householdActions(i)
 		if (localStorage["az.business." + businessID + ".type"] == "manu") // manufacturing
 		{
 			// choose amount to spend
-			if (parseInt(localStorage["az.household." + i + ".cash"]) > parseInt(localStorage["az.business." + businessID + ".inventory"]))
+			var maxpurchase = parseInt(localStorage["az.business." + businessID + ".inventory"]);
+			amount = Math.round(parseInt(localStorage["az.household." + i + ".cash"])) * Math.random() * parseInt(localStorage["az.householdspendingfactor"])/100;
+			
+			if (amount > maxpurchase)
+			{
+				amount = maxpurchase;
+			}
+
+			/*if (parseInt(localStorage["az.household." + i + ".cash"]) > parseInt(localStorage["az.business." + businessID + ".inventory"]))
 			{ // person has more cash then business inventory
 				amount = Math.round(parseInt(localStorage["az.business." + businessID + ".inventory"]) * Math.random() * Math.random());
 			}
 			else { // person has less cash then business inventory
 				amount = Math.round(parseInt(localStorage["az.household." + i + ".cash"]) * Math.random() * Math.random());
-			}
+			}*/
 			
 			if (amount > 0)
 			{
@@ -387,14 +395,23 @@ function householdActions(i)
 			}	
 		}
 		else { // service
+
 			// choose amount to spend
-			if (parseInt(localStorage["az.household." + i + ".cash"]) > parseInt(localStorage["az.business." + businessID + ".capacity"]))
+			var maxpurchase = parseInt(localStorage["az.business." + businessID + ".capacity"]);
+			amount = Math.round(parseInt(localStorage["az.household." + i + ".cash"])) * Math.random() * parseInt(localStorage["az.householdspendingfactor"])/100;
+			
+			if (amount > maxpurchase)
+			{
+				amount = maxpurchase;
+			}
+
+			/*if (parseInt(localStorage["az.household." + i + ".cash"]) > parseInt(localStorage["az.business." + businessID + ".capacity"]))
 			{ // person has more cash then business capacity
 				amount = Math.round(parseInt(localStorage["az.business." + businessID + ".capacity"]) * Math.random() * Math.random());
 			}
 			else { // person has less cash then business capacity
 				amount = Math.round(parseInt(localStorage["az.household." + i + ".cash"]) * Math.random() * Math.random());
-			}
+			}*/
 			
 			if (amount > 0)
 			{

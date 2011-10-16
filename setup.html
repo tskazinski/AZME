@@ -152,6 +152,19 @@
 			$( "#bankloanrate" ).val( $( "#bankloanrateSlider" ).slider( "value" ) );
 		});
 
+		$(function() {
+			$( "#householdspendingfactorSlider" ).slider({
+			value:10,
+			min: 1,
+			max: 100,
+			step: 1,
+			slide: function( event, ui ) {
+				$( "#householdspendingfactor" ).val( ui.value );
+			}
+		});
+			$( "#householdspendingfactor" ).val( $( "#householdspendingfactorSlider" ).slider( "value" ) );
+		});
+
      });
      
 	function getDistribution(min,max,avg) {
@@ -184,6 +197,7 @@
 		localStorage["az.bankreservereq"] = parseInt($('#bankreservereq').val());
 		localStorage["az.bankdepositrate"] = parseFloat($('#bankdepositrate').val());
 		localStorage["az.bankloanrate"] = parseFloat($('#bankloanrate').val());
+		localStorage["az.householdspendingfactor"] = parseFloat($('#householdspendingfactor').val());
 		
 		localStorage["az.householdCount"] = numHouseholds;
 		for (var i = 1; i <= numHouseholds; i++) {
@@ -327,6 +341,14 @@
 				</p>
 				<center> 
 					<div id="bankloanrateSlider" style="width:300px;"></div>
+				</center>
+				<br/>
+				<p>
+					<label for="householdspendingfactor" class="tooltip" title="Setting this at 10% means that a household can spend somewhere between $0 and 10% of the current cash on hand.">Max household spending per day for current cash on hand (%): </label>
+					<input class="inputparam" type="text" id="householdspendingfactor" value="10" />
+				</p>
+				<center> 
+					<div id="householdspendingfactorSlider" style="width:300px;"></div>
 				</center>
 				
 				<!--<a class="button red" href="#" onclick="if(checkLocalStorage()==true){document.forms['parametersform'].submit();}" style="margin-top:20px;">Run Simulation</a>-->
