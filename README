@@ -14,13 +14,13 @@ Files that comprise the simulation:
 
 setup.html - Setup input variables for simulation, initializes all the local storage data.
 
-run.html - Frontend html displaying simulation results.
+run.html - Frontend html displaying simulation results and acccepts user input. (VIEW/CONTROLLER)
 
-simulation.js - Javascript accompanying run.html to render the frontend.
+simulation.js - Javascript accompanying run.html to render the frontend. (VIEW/CONTROLLER)
 
-engine.js - Logic of the simulation, local storage data is altered and computed here.
+engine.js - Logic of the simulation, local storage data is altered and computed here. (MODEL)
 
-az.css - Style sheets for the simulation.
+az.css - Style sheets for the simulation. (VIEW)
 
 ****************************************************
 
